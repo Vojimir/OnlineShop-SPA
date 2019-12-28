@@ -2,14 +2,14 @@
   <div>
     <div class="d-flex bd-highlight">
       <div class="p-2 flex-shrink-1 bd-highlight">
-        <img :src="manager.photo" class="img-thumbnail" />
+        <img :src="shop.photo" class="img-thumbnail" />
       </div>
       <div class="p-2 flex-fill bd-highlight">
-        <h3 class="card-title">{{manager.first_name + ' ' + manager.last_name}}</h3>
-        <h4 class="card-subtitle mb-2 text-muted">{{manager.email}}</h4>
-        <h6 class="card-subtitle mb-2">Shop name: {{shop.title}}</h6>
+        <h3 class="card-title">{{shop.title}}</h3>
+        
+        <h6 class="card-subtitle mb-2">Shop Manager: {{manager.first_name+' '+manager.last_name}}</h6>
         <h6 class="card-subtitle mb-2">Number of articles:</h6>
-        <h6 v-if="manager.shop_id == null" class="card-subtitle mb-2">Manager is available</h6>
+        <h6 v-if="shop.manager_id == null" class="card-subtitle mb-2">No manager assigned</h6>
 
       </div>
     </div>
@@ -34,9 +34,9 @@ export default {
   },
   
   created() {
-    this.fetchManager(this.$route.params.id)
+    this.fetchShop(this.$route.params.id)
     .then(()=>
-    this.fetchShop(this.manager.shop_id)
+    this.fetchManager(this.shop.manager_id)
     )},
  
 };

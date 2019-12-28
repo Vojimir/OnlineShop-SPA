@@ -8,6 +8,7 @@ class AuthService extends HttpService {
     register(user) {
         return this.axios.post('/register', user)
     }
+    //get user
     
 }
 export const authService = new AuthService()

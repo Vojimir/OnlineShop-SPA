@@ -4,20 +4,25 @@
     <Search />
     <br />
     <div class="container">
+      <div v-if="shops == '' " class="alert alert-warning" role="alert">There are no shops available</div>
       <div class="card">
         <div v-for="shop in shops" :key="shop.id" class="card-body">
           <img :src="shop.photo" class="float-left rounded-circle" />
           <div class="message">
-            <h5 class="card-title">{{shop.title}}</h5>
+            <h5 @click="SingleShopPage(shop.id)" class="card-title">Shop : {{shop.title}}</h5>
+            <h6
+                v-if="shop.manager_id == null "
+                class="card-subtitle mb-2 text-muted"
+              >NO manager assigned!</h6>
             <div v-for="manager in managers" :key="manager.id">
-            <h6 v-if="shop.manager_id == manager.id" class="card-subtitle mb-2 text-muted">{{manager.first_name+' '+manager.last_name}}</h6>
-            <h6 v-else-if="shop.manager_id == null " class="card-subtitle mb-2 text-muted">NO manager assigned!</h6>
+              <h6
+                @click="SingleManagerPage(manager.id)"
+                v-if="shop.manager_id == manager.id"
+                class="card-subtitle mb-2 text-muted"
+              >Manager : {{manager.first_name+' '+manager.last_name}}</h6>
+              
             </div>
-            <p
-              class="card-text"
-            >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           </div>
-        
         </div>
       </div>
     </div>
@@ -43,13 +48,21 @@ export default {
     ...mapActions({
       fetchShops: "fetchShops",
       fetchManagers: "fetchManagers"
-    })
-    
+    }),
+    SingleManagerPage(id) {
+      this.$router.push({
+        name: "manager",
+        params: { id }
+      });
+    },
+    SingleShopPage(id) {
+      this.$router.push({
+        name: "shop",
+        params: { id }
+      });
+    }
   },
-  created(){
-
-
-  },
+  created() {},
   beforeRouteEnter(to, from, next) {
     next(vm => vm.fetchShops() && vm.fetchManagers());
   }

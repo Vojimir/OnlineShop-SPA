@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import { AuthStore } from './AuthStore'
 import { ManagerStore } from './ManagerStore'
 import { ShopStore } from './ShopStore'
+import { ArticleStore } from './ArticleStore'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
   AuthStore,
   ShopStore,
   ManagerStore,
+  ArticleStore,
  }
 });
   

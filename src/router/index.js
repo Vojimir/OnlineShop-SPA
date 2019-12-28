@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Shop from '.././components/Shop'
+import Shops from '.././components/Shops'
 import Login from '.././components/Login'
 import Register from '.././components/Register'
 import AllManagers from '.././components/AllManagers'
 import AddManager from '.././components/AddManager'
 import SingleManager from '.././components/SingleManager'
+import SingleShop from '.././components/SingleShop'
 import MyShop from '.././components/MyShop'
 import AddShop from '.././components/AddShop'
 import AddArticle from '.././components/AddArticle'
+
 import store from '.././store/index'
 
 Vue.use(VueRouter)
@@ -18,7 +20,15 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Shop,
+    component: Shops,
+    meta: {
+      guest: true
+    }
+  },
+  {
+    path: '/shops/:id',
+    name: 'shop',
+    component: SingleShop,
     meta: {
       guest: true
     }
@@ -82,6 +92,14 @@ const routes = [
   {
     path: '/article/create',
     name: 'add-article',
+    component: AddArticle,
+    meta: {
+      guest: false
+    }
+  },
+  {
+    path: '/shop/:id/article/create',
+    name: 'myShopAddArticle',
     component: AddArticle,
     meta: {
       guest: false

@@ -3,7 +3,8 @@ import { authService } from './../services/AuthService'
 export const AuthStore = {
     state: {
         token: localStorage.getItem('token'),
-        errors: null
+        errors: null,
+        user: localStorage.getItem('user')
     },
     mutations: {
         setToken(state, token) {
@@ -11,6 +12,9 @@ export const AuthStore = {
         },
         setErrors(state, errors) {
             state.errors = errors
+        },
+        setUser(state, user) {
+            state.user = user
         }
     },
     actions : {
@@ -19,8 +23,10 @@ export const AuthStore = {
                 
                 const response = await authService.login(email,password)
                 context.commit('setToken', response.data.token)
-                context.commit('setErrors',null) //brisemo errore - restartujemo ih
                 localStorage.setItem('token', response.data.token)
+                context.commit('setUser', JSON.stringify(response.data.user))
+                localStorage.setItem('user', JSON.stringify(response.data.user))
+                context.commit('setErrors',null) //brisemo errore - restartujemo ih
                 return response
             }catch(exception) {
                 context.commit('setErrors',exception)
@@ -34,6 +40,12 @@ export const AuthStore = {
                 context.commit('setErrors', exception.response.data.error)
             }
         },
+        fetchUser(context, id) {
+            return authService.get(id)
+                .then(
+                    response => { context.commit('setUser', response.data) }
+                )
+        },
         logout(context) {
             context.commit('setToken', null)
             // localStorage.setItem('token', null) drugo resenje
@@ -46,6 +58,9 @@ export const AuthStore = {
         },
         errors(state) {
             return state.errors
+        },
+        user(state) {
+            return JSON.parse(state.user)
         }
     }
     
