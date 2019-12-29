@@ -13,6 +13,11 @@
             <img :src="shop.photo" class="img-thumbnail" />
           </div>
           <button @click="onEditPage(shop.id)" class="btn btn-info">Edit Shop</button>
+          <button
+          @click="onDeleteShop(shop.id)"
+          v-if="manager.id == shop.manager_id && user.manager_id == manager.id"
+          class="btn btn-danger"
+        >Delete</button>
           <div class="p-2 flex-fill bd-highlight">
             <h3 class="card-title">{{shop.title}}</h3>
 
@@ -73,7 +78,8 @@ export default {
     ...mapActions({
       fetchShop: "fetchShop",
       fetchManager: "fetchManager",
-      fetchArticles: "fetchArticles"
+      fetchArticles: "fetchArticles",
+      deleteShop: "deleteShop",
     }),
     onAddArticlePage(id) {
       this.$router.push({
@@ -86,7 +92,18 @@ export default {
         name: "shopEdit",
         params: { id }
       });
+    },
+    onDeleteShop(id) {
+    if (confirm("Are you sure you want to delete shop?")) {
+      this.deleteShop(id)
+      .then(() => {
+        this.$router.push({
+        name: "home",
+        
+      });
+      });
     }
+  },
   },
   created() {
     this.fetchManager(this.user.manager_id).then(() => {

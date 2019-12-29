@@ -47,6 +47,9 @@ export const ShopStore = {
         },
         editShop(context, shop) {
             return shopService.edit(shop)
+        },
+        deleteShop(context,id) {
+            return shopService.delete(id)
         }
     },
 

@@ -40,7 +40,8 @@ const routes = [
     component: Login,
     meta: {
       guest: true
-    }
+    },
+    
   },
   {
     path: '/register',
@@ -65,6 +66,7 @@ const routes = [
     meta: {
       guest: false
     }
+
   },
   {
     path: '/managers/:id',
@@ -106,13 +108,13 @@ const routes = [
       guest: false
     }
   },
-    {
-      path: '/shops/:id/edit',
-      name: 'shopEdit',
-      component: ShopEdit,
-      meta: {
-        guest: false
-      }
+  {
+    path: '/shops/:id/edit',
+    name: 'shopEdit',
+    component: ShopEdit,
+    meta: {
+      guest: false
+    }
   },
   // {
   //   path: '/about',

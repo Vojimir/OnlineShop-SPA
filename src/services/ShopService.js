@@ -15,6 +15,9 @@ class ShopService extends HttpService {
     edit(shop) {
         return this.axios.put(`shops/${shop.id}`,shop)
     }
+    delete(id) {
+        return this.axios.delete(`shops/${id}`)
+      }
 }
 
 export const shopService = new ShopService()

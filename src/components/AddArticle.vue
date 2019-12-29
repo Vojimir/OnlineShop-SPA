@@ -123,7 +123,7 @@ export default {
     }),
     shopId () {
       //ako nema !this.$route.params.id onda mi daj ?code a ako ima daj mi :code
-      return !this.$route.params.id ? this.user.manager.shop_id : this.$route.params.id
+      return !this.$route.params.id ? this.manager.shop_id : this.$route.params.id
       
       
     }

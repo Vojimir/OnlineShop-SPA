@@ -10,15 +10,23 @@
         <div class="p-2 flex-shrink-1 bd-highlight">
           <img :src="shop.photo" class="img-thumbnail" />
         </div>
-        <button @click="onEditPage(shop.id)" class="btn btn-info">Edit Shop</button>
-        <button @click="onDelete(shop.id)" v-if="manager.id == shop.manager_id && user.manager_id == manager.id" class="btn btn-danger">Delete</button>
+        <button
+          v-if="manager.id == shop.manager_id && user.manager_id == manager.id"
+          @click="onEditPage(shop.id)"
+          class="btn btn-info"
+        >Edit Shop</button>
+        <button
+          @click="onDeleteShop(shop.id)"
+          v-if="manager.id == shop.manager_id && user.manager_id == manager.id"
+          class="btn btn-danger"
+        >Delete</button>
 
         <h1 class="card-title">{{shop.title}}</h1>
 
         <h6 class="card-subtitle mb-2">Shop Manager: {{manager.first_name+' '+manager.last_name}}</h6>
         <h6 v-if="shop.manager_id == null" class="card-subtitle mb-2">No manager assigned</h6>
         <label>Articles:</label>
-        <table class="table table-bordered ">
+        <table class="table table-bordered">
           <thead class="bg-warning">
             <tr>
               <th scope="col">Photo</th>
@@ -39,18 +47,24 @@
           </tbody>
         </table>
 
-        <div class="">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="page-header">
-            <h3>Comments</h3>
-          </div>
-          <div v-for="comment in comments" :key="comment.id" class="comments-list">
-            <div class="media">
-              <div class="media-body">
-                <h5 class="media-heading user_name">{{comment.author}}:</h5>
-                <p class="media-body">{{comment.body}}</p>
-                <button @click="onDelete(comment.id)" v-if="user.id == comment.author_id" class="btn btn-danger">Delete</button>
+        <div class>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="page-header">
+                <h3>Comments</h3>
+              </div>
+              <div v-for="comment in comments" :key="comment.id" class="comments-list">
+                <div class="media">
+                  <div class="media-body">
+                    <h5 class="media-heading user_name">{{comment.author}}:</h5>
+                    <p class="media-body">{{comment.body}}</p>
+                    <button
+                      @click="onDelete(comment.id)"
+                      v-if="user.id == comment.author_id"
+                      class="btn btn-danger"
+                    >Delete</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -58,12 +72,7 @@
       </div>
     </div>
 
-      </div>
-    </div>
-
-    
-
-    <div class="">
+    <div class>
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <div class="panel panel-info">
@@ -103,7 +112,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      form: { author: "", body: "", shop_id: "",author_id: "", }
+      form: { author: "", body: "", shop_id: "", author_id: "" }
     };
   },
   computed: {
@@ -122,7 +131,8 @@ export default {
       fetchArticles: "fetchArticles",
       fetchComments: "fetchComments",
       addComment: "addComment",
-      deleteComment: "deleteComment"
+      deleteComment: "deleteComment",
+      deleteShop: "deleteShop"
     }),
     onAddArticlePage(id) {
       this.$router.push({
@@ -135,16 +145,14 @@ export default {
       this.form.author_id = this.user.id;
       this.form.shop_id = this.shop.id;
       this.addComment(this.form);
-      this.form = { author: "", body: "", shop_id: "",author_id: "", };
-      this.fetchComments()
+      this.form = { author: "", body: "", shop_id: "", author_id: "" };
+      this.fetchComments();
     },
-    onDelete(id){
-      if(confirm("Are you sure you want to delete comment?")){
-
+    onDelete(id) {
+      if (confirm("Are you sure you want to delete comment?")) {
         this.deleteComment(id).then(() => {
-
-          this.fetchComments()
-        })
+          this.fetchComments();
+        });
       }
     },
     onEditPage(id) {
@@ -152,9 +160,17 @@ export default {
         name: "shopEdit",
         params: { id }
       });
+    },
+    onDeleteShop(id) {
+      if (confirm("Are you sure you want to delete shop?")) {
+        this.deleteShop(id).then(() => {
+          this.$router.push({
+            name: "home"
+          });
+        });
+      }
     }
   },
-
   created() {
     this.fetchShop(this.$route.params.id).then(
       () => this.fetchManager(this.shop.manager_id),
