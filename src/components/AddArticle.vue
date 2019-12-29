@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+   
+    <div v-if="user.manager.id == shop.manager_id && user.manager_id == user.manager.id">
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
@@ -99,6 +101,8 @@
         </div>
       </div>
     </div>
+    </div>
+    <div class="alert alert-warning" v-else >You dont own any shops!</div>
   </div>
 </template>
 
@@ -113,17 +117,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-
+        user: "user",
+        manager: "manager",
+        shop: "shop",
     }),
     shopId () {
-      return !this.$route.params.id ? this.shop.id : this.$route.params.id
+      //ako nema !this.$route.params.id onda mi daj ?code a ako ima daj mi :code
+      return !this.$route.params.id ? this.user.manager.shop_id : this.$route.params.id
       
       
     }
   },
   methods: {
     ...mapActions({
-      addArticle: "addArticle"
+      addArticle: "addArticle",
+      fetchShop: "fetchShop",
+      fetchManager: "fetchManager"
+      
     }),
     onSubmit() {
       this.images.forEach(img => {
@@ -148,10 +158,14 @@ export default {
     onDelete(index) {
       this.images.splice(index, 1);
     }
+  },
+    created() {   
+    
+    this.fetchManager(this.user.manager_id).then(()=>{
+      this.fetchShop(this.manager.shop_id);
+      
+    })
   }
-  //   beforeRouteEnter(to, from, next) {
-  //   next(vm => vm.fetchShops());
-  // }
 };
 </script>
 

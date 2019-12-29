@@ -11,6 +11,7 @@ import SingleShop from '.././components/SingleShop'
 import MyShop from '.././components/MyShop'
 import AddShop from '.././components/AddShop'
 import AddArticle from '.././components/AddArticle'
+import ShopEdit from '.././components/ShopEdit'
 
 import store from '.././store/index'
 
@@ -30,7 +31,7 @@ const routes = [
     name: 'shop',
     component: SingleShop,
     meta: {
-      guest: true
+      guest: false
     }
   },
   {
@@ -104,6 +105,14 @@ const routes = [
     meta: {
       guest: false
     }
+  },
+    {
+      path: '/shops/:id/edit',
+      name: 'shopEdit',
+      component: ShopEdit,
+      meta: {
+        guest: false
+      }
   },
   // {
   //   path: '/about',

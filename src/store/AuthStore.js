@@ -49,7 +49,9 @@ export const AuthStore = {
         logout(context) {
             context.commit('setToken', null)
             // localStorage.setItem('token', null) drugo resenje
-            localStorage.removeItem('token')
+            localStorage.clear();
+            // localStorage.removeItem('token'),
+            // localStorage.removeItem('user',null)
         }
     },
     getters: {

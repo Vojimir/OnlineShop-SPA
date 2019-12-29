@@ -44,6 +44,9 @@ export const ShopStore = {
         addShop(context, shop) {
             return shopService.add(shop)
                 .catch(response => context.commit('setShopErrors', response.data.errors))
+        },
+        editShop(context, shop) {
+            return shopService.edit(shop)
         }
     },
 

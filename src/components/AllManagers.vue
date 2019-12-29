@@ -4,20 +4,23 @@
     <Search />
     <br />
     <!-- <button class="btn btn-success " @click="AddManagerPage">Add manager</button> -->
-    
 
     <div class="container">
       <div class="card">
         <div v-for="manager in managers" :key="manager.id" class="card-body">
           <img :src="manager.photo" class="float-left rounded-circle" />
           <div class="message">
-            <h5 class="card-title " @click="SingleManagerPage(manager.id)"
-              >{{manager.first_name + ' ' + manager.last_name}}
-            </h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p
-              class="card-text"
-            >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5
+              class="card-title"
+              @click="SingleManagerPage(manager.id)"
+            >Name : {{manager.first_name + ' ' + manager.last_name}}</h5>
+            <div v-for="shop in shops" :key="shop.id">
+              <h6
+                v-if="manager.id == shop.manager_id"
+                class="card-subtitle mb-2 text-muted"
+              >Shop : {{shop.title}}</h6>
+            </div>
+            <h6 v-if="manager.shop_id == null">Manager is available</h6>
           </div>
           <!-- <div class="actions">
         <a href="#" class="card-link">Like</a>
@@ -41,12 +44,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      managers: "filteredManagers"
+      managers: "filteredManagers",
+      shops: "shops"
     })
   },
   methods: {
     ...mapActions({
-      fetchManagers: "fetchManagers"
+      fetchManagers: "fetchManagers",
+      fetchShops: "fetchShops"
     }),
     SingleManagerPage(id) {
       this.$router.push({
@@ -60,8 +65,10 @@ export default {
       });
     }
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => vm.fetchManagers());
+  created() {
+    this.fetchManagers().then(() => {
+      this.fetchShops();
+    });
   }
 };
 </script>

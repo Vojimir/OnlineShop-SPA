@@ -11,18 +11,19 @@
           <div class="message">
             <h5 @click="SingleShopPage(shop.id)" class="card-title">Shop : {{shop.title}}</h5>
             <h6
-                v-if="shop.manager_id == null "
-                class="card-subtitle mb-2 text-muted"
-              >NO manager assigned!</h6>
+              v-if="shop.manager_id == null "
+              class="card-subtitle mb-2 text-muted"
+            >NO manager assigned!</h6>
             <div v-for="manager in managers" :key="manager.id">
               <h6
                 @click="SingleManagerPage(manager.id)"
                 v-if="shop.manager_id == manager.id"
                 class="card-subtitle mb-2 text-muted"
               >Manager : {{manager.first_name+' '+manager.last_name}}</h6>
-              
             </div>
+            <h6>{{shop.created_at}}</h6>
           </div>
+          
         </div>
       </div>
     </div>
@@ -60,7 +61,8 @@ export default {
         name: "shop",
         params: { id }
       });
-    }
+    },
+    
   },
   created() {},
   beforeRouteEnter(to, from, next) {

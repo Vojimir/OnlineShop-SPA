@@ -12,6 +12,9 @@ class ShopService extends HttpService {
     add(shop) {
         return this.axios.post('/shops', shop)
     }
+    edit(shop) {
+        return this.axios.put(`shops/${shop.id}`,shop)
+    }
 }
 
 export const shopService = new ShopService()
